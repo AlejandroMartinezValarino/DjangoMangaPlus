@@ -8,8 +8,16 @@
             <div style="width: 100%;">
                 <select id="mangas" name="manga_id" style="width: 100%;">
                     <option value=""></option>
-                    {% for manga in mangas.titles %}
-                        <option value="{{ manga.title.titleId }}" data-description="{{ manga.title.author }}" data-imageUrl="{{ manga.title.imagePortrait }}">{{ manga.title.titleName }}</option>
+                    {% for update in mangas.updates %}
+                        {% for item in update.items %}
+                            {% for title in item.metadata.title %}
+                                {% if title.language == "SPANISH" %}
+                                    <option value="{{ title.titleId }}" data-description="{{ title.author }}" data-imageUrl="{{ title.imagePortrait }}">{{ title.titleName }} - ES</option>
+                                {% elif not title.language %}
+                                    <option value="{{ title.titleId }}" data-description="{{ title.author }}" data-imageUrl="{{ title.imagePortrait }}">{{ title.titleName }} - EN</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
                     {% endfor %}
                 </select>
             </div>        

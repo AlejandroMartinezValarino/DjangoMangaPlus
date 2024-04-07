@@ -11,7 +11,7 @@ client.register(android_id)
 
 
 def homepage(request):
-    content = client.free_titles()
+    content = client.home()
 
     manga_id = request.POST.get('manga_id')
 

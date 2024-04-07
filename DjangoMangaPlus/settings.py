@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-tkpzefy#3a!ua#k#imf6&p50l$5gq$u^c#-^b50!pm6u=o_!gz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://django-manga-plus-molkiu-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com/']
 
 
 # Application definition

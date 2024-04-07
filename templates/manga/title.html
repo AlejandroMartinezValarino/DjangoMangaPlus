@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Chapters{% endblock %}
+
+{% block content %}
+    <div class="container-fluid bg-light" style="padding: 50px 0;">
+        <div class="container">
+            <div class="row">
+                {% for chapter in chapters.chapters %}
+                    {% if chapter.lastChapterList %}
+                    	{% for lastChapter in chapter.lastChapterList %}
+                            <div class="col-sm-4 text-center mb-4">
+                                <a href="{% url 'mangaplus_app:manga_detail' lastChapter.chapterId %}" class="text-decoration-none text-dark">
+                                    <div class="card">
+                                        <img src="{{ lastChapter.thumbnailUrl }}" alt="{{ lastChapter.chapterSubTitle }}" class="card-img-top img-fluid">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ lastChapter.titleName }}</h5>
+                                            <p class="card-text">{{ lastChapter.chapterSubTitle }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% for first in chapter.firstChapterList %}
+                            <div class="col-sm-4 text-center mb-4">
+                                <a href="{% url 'mangaplus_app:manga_detail' first.chapterId %}" class="text-decoration-none text-dark">
+                                    <div class="card">
+                                        <img src="{{ first.thumbnailUrl }}" alt="{{ first.chapterSubTitle }}" class="card-img-top img-fluid">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ first.titleName }}</h5>
+                                            <p class="card-text">{{ first.chapterSubTitle }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

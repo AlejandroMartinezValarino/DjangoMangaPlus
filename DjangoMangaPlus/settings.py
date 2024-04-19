@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'DjangoMangaPlus.wsgi.application'
+WSGI_APPLICATION = 'DjangoMangaPlus.wsgi.app'
 
 
 # Database

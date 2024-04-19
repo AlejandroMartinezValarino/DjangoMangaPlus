@@ -19,6 +19,10 @@
   ],
   "routes": [
     {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
       "src": "/mangaplus_app/manga/(.*)",
       "dest": "/mangaplus_app/manga/$1"
     },

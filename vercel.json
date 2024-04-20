@@ -23,11 +23,11 @@
       "dest": "/static/$1"
     },
     {
-      "src": "/manga/(.*)",
+      "src": "/mangaplus_app/manga/(.*)",
       "dest": "/manga/$1"
     },
     {
-      "src": "/chapter/(.*)",
+      "src": "/mangaplus_app/chapter/(.*)",
       "dest": "/chapter/$1"
     },
     {

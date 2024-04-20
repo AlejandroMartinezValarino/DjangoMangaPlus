@@ -21,7 +21,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('mangaplus_app/', include('mangaplus_app.urls', namespace='mangaplus_app')),
+    path('', include('mangaplus_app.urls', namespace='mangaplus_app')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

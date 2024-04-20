@@ -32,7 +32,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "DjangoMangaPlus/wsgi.py"
     }
-  ]
+]
 }

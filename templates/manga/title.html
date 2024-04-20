@@ -10,7 +10,7 @@
                     {% if chapter.lastChapterList %}
                     	{% for lastChapter in chapter.lastChapterList %}
                             <div class="col-sm-4 text-center mb-4">
-                                <a href="{% url 'manga_detail' lastChapter.chapterId %}" class="text-decoration-none text-dark">
+                                <a href="{% url 'mangaplus_app:manga_detail' lastChapter.chapterId %}" class="text-decoration-none text-dark">
                                     <div class="card">
                                         <img src="{{ lastChapter.thumbnailUrl }}" alt="{{ lastChapter.chapterSubTitle }}" class="card-img-top img-fluid">
                                         <div class="card-body">
@@ -24,7 +24,7 @@
                     {% else %}
                         {% for first in chapter.firstChapterList %}
                             <div class="col-sm-4 text-center mb-4">
-                                <a href="{% url 'manga_detail' first.chapterId %}" class="text-decoration-none text-dark">
+                                <a href="{% url 'mangaplus_app:manga_detail' first.chapterId %}" class="text-decoration-none text-dark">
                                     <div class="card">
                                         <img src="{{ first.thumbnailUrl }}" alt="{{ first.chapterSubTitle }}" class="card-img-top img-fluid">
                                         <div class="card-body">

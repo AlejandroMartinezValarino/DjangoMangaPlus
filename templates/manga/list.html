@@ -33,7 +33,7 @@
         function submitForm() {
             var mangaId = document.getElementById('mangas').value;
             var form = document.getElementById('mangaForm');
-            form.action = "{% url 'mangaplus_app:manga_info' manga_id=0 %}".replace('0', mangaId);
+            form.action = "{% url 'manga_info' manga_id=0 %}".replace('0', mangaId);
             form.submit();
         }
 
@@ -43,7 +43,7 @@
             var mangaDescription = "{{ info.overview }}";
             var mangaImageUrl = "{{ info.imageTitle }}";
             var author = "{{ info.title.author }}"
-            var mangaCard = '<a class="text-decoration-none" href="/mangaplus_app/manga/' + title_id + '/">' +
+            var mangaCard = '<a class="text-decoration-none" href="/manga/' + title_id + '/">' +
                 '<div class="card text-center" style="background-color: #f8f9fa;">' +
                 '<img src="' + mangaImageUrl + '" class="card-img-top mx-auto d-block" style="height: 30%;width: 30%;">' +
                 '<div class="card-body">' +

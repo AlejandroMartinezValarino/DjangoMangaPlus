@@ -23,8 +23,16 @@
       "dest": "/static/$1"
     },
     {
+      "src": "/manga/(.*)",
+      "dest": "/manga/$1"
+    },
+    {
+      "src": "/chapter/(.*)",
+      "dest": "/chapter/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "DjangoMangaPlus/wsgi.py"
+      "dest": "/$1"
     }
-]
+  ]
 }

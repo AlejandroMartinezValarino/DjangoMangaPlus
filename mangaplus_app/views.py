@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 
 import secrets
@@ -13,11 +14,42 @@ client.register(android_id)
 def homepage(request):
     content = client.home()
 
-    manga_id = request.POST.get('manga_id')
+    manga_lang = request.POST.get('manga_lang', 'SPANISH')
 
-    info = client.title_detail(manga_id) if manga_id else None
+    languages = set()
+    infos = []
 
-    return render(request, 'manga/list.html', {'mangas': content, 'info': info})
+    try:
+        for update in content.get('updates', []):
+            for item in update.get('items', []):
+                for title in item.get('metadata', {}).get('title', []):
+                    language = title.get('language', '')
+                    languages.add(language)
+
+        for update in content.get('updates', []):
+            filtered_update = {'items': []}
+            for item in update.get('items', []):
+                filtered_titles = []
+                for title in item.get('metadata', {}).get('title', []):
+                    language = title.get('language', '')
+                    if language == manga_lang:
+                        filtered_titles.append(title)
+                if filtered_titles:
+                    filtered_item = {'metadata': {'title': filtered_titles}}
+                    filtered_update['items'].append(filtered_item)
+            if filtered_update['items']:
+                infos.append(filtered_update)
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+    return render(request, 'manga/list.html', {'lenguas': languages, 'infos': infos})
+
+
+def manga_overview(request, title_id):
+    title_detail = client.title_detail(title_id)
+    overview = title_detail.get('overview', '')
+    return JsonResponse({'overview': overview})
 
 
 def title_detail(request, title_id):

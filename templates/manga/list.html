@@ -3,27 +3,25 @@
 {% block title %}Mangas{% endblock %}
 {% block content %}
     <form method="POST" id="mangaForm">
-    {% csrf_token %}
+        {% csrf_token %}
         <div class="container" style="display: flex; justify-content: center;margin-bottom: 10px;margin-top: 10px">
             <div style="width: 100%;">
-                <select id="mangas" name="manga_id" style="width: 100%;">
-                    <option value=""></option>
-                    {% for update in mangas.updates %}
-                        {% for item in update.items %}
-                            {% for title in item.metadata.title %}
-                                {% if title.language == "SPANISH" %}
-                                    <option value="{{ title.titleId }}" data-description="{{ title.author }}" data-imageUrl="{{ title.imagePortrait }}">{{ title.titleName }} - ES</option>
-                                {% elif not title.language %}
-                                    <option value="{{ title.titleId }}" data-description="{{ title.author }}" data-imageUrl="{{ title.imagePortrait }}">{{ title.titleName }} - EN</option>
-                                {% endif %}
-                            {% endfor %}
-                        {% endfor %}
+                <select id="mangas" name="manga_lang" style="width: 100%;">
+                    <option value="SPANISH">Spanish</option>
+                    {% for language in lenguas %}
+                        {% if language != "SPANISH" and language != 7 and language != 9 and language %}
+                            <option value="{{ language }}">{{ language }}</option>
+                        {% endif %}
+                        {% if not language %}
+                            <option value="{{ language }}">English</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
-            </div>        
+            </div>
         </div>
         <div class="container d-grid gap-2 col-10 mx-auto">
-            <input class="btn btn-primary" style="display: flex; justify-content: center;" type="button" value="Ver" onclick="this.form.submit()">
+            <input class="btn btn-primary" style="display: flex; justify-content: center;" type="button" value="Ver"
+                   onclick="this.form.submit()">
         </div>
     </form>
 
@@ -31,30 +29,49 @@
 
     <script>
         function submitForm() {
-            var mangaId = document.getElementById('mangas').value;
+            var manga_lang = document.getElementById('mangas').value;
             var form = document.getElementById('mangaForm');
-            form.action = "{% url 'mangaplus_app:manga_info' manga_id=0 %}".replace('0', mangaId);
+            form.action = "{% url 'mangaplus_app:manga_info' manga_lang='SPANISH' %}".replace('SPANISH', manga_lang);
             form.submit();
         }
 
-        {% if info %}
-            var title_id = "{{ info.title.titleId }}";
-            var mangaName = "{{ info.title.titleName }}";
-            var mangaDescription = "{{ info.overview }}";
-            var mangaImageUrl = "{{ info.imageTitle }}";
-            var author = "{{ info.title.author }}"
-            var mangaCard = '<a class="text-decoration-none" href="/manga/' + title_id + '/">' +
-                '<div class="card text-center" style="background-color: #f8f9fa;">' +
-                '<img src="' + mangaImageUrl + '" class="card-img-top mx-auto d-block" style="height: 30%;width: 30%;">' +
-                '<div class="card-body">' +
-                '<h5 class="card-title">' + mangaName + '</h5> ' +
-                '<p class="card-text">' + author + '</p>' + // Corregido "autor" a "Autor"
-                '<div class="card-text">' + mangaDescription + '</div>' +
-                '</div>' +
-                '</div>' +
-                '</a>';
-            $("#mangaInfo").html(mangaCard);
-        {% endif %} 
-    </script>
+        document.addEventListener("DOMContentLoaded", function () {
+            {% for info in infos %}
+                {% for item in info.items %}
+                    {% for title in item.metadata.title %}
+                        var title_id = "{{ title.titleId }}";
+                        var mangaName = "{{ title.titleName }}";
+                        var author = "{{ title.author }}";
+                        var mangaImageUrl = "{{ title.imagePortrait }}";
+                        var mangaDescription = "{{ item.overview }}";
 
+                        var mangaCard = '<a class="text-decoration-none" href="/manga/' + title_id + '/">' +
+                            '<div class="card text-center" style="background-color: #f8f9fa;">' +
+                            '<img src="' + mangaImageUrl + '" class="card-img-top mx-auto d-block" style="width: 30%; height: 30%;">' +
+                            '<div class="card-body">' +
+                            '<h5 class="card-title">' + mangaName + '</h5> ' +
+                            '<p class="card-text">' + author + '</p>' +
+                            '<div class="card-text">' + mangaDescription + '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</a>';
+                        $("#mangaInfo").append(mangaCard);
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+            $("#mangaInfo").on('mouseenter', 'a', function () {
+                var href = $(this).attr('href');
+                var title_id = href.split('/')[2];
+
+                $.get("/manga_overview/" + title_id, function (data) {
+                    var overviewDiv = $('<div class="overview"></div>');
+                    overviewDiv.text(data.overview);
+                    
+                    $(this).find('.card-body').append(overviewDiv);
+                }.bind(this));
+            }).on('mouseleave', 'a', function () {
+                $(this).find('.overview').remove();
+            });
+        });
+    </script>
 {% endblock %}

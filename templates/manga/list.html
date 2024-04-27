@@ -25,7 +25,28 @@
         </div>
     </form>
 
-    <div id="mangaInfo" class="container mt-4"></div>
+    <div class="container mt-4">
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="mangaInfo">
+            {% for info in infos %}
+                {% for item in info.items %}
+                    {% for title in item.metadata.title %}
+                        <div class="col">
+                            <a class="text-decoration-none" href="/manga/{{ title.titleId }}/">
+                                <div class="card text-center" style="background-color: #f8f9fa;">
+                                    <img src="{{ title.imagePortrait }}" class="card-img-top mx-auto d-block" style="width: 30%; height: 30%;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ title.titleName }}</h5>
+                                        <p class="card-text">{{ title.author }}</p>
+                                        <div class="card-text">{{ item.overview }}</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
 
     <script>
         function submitForm() {
@@ -36,29 +57,6 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            {% for info in infos %}
-                {% for item in info.items %}
-                    {% for title in item.metadata.title %}
-                        var title_id = "{{ title.titleId }}";
-                        var mangaName = "{{ title.titleName }}";
-                        var author = "{{ title.author }}";
-                        var mangaImageUrl = "{{ title.imagePortrait }}";
-                        var mangaDescription = "{{ item.overview }}";
-
-                        var mangaCard = '<a class="text-decoration-none" href="/manga/' + title_id + '/">' +
-                            '<div class="card text-center" style="background-color: #f8f9fa;">' +
-                            '<img src="' + mangaImageUrl + '" class="card-img-top mx-auto d-block" style="width: 30%; height: 30%;">' +
-                            '<div class="card-body">' +
-                            '<h5 class="card-title">' + mangaName + '</h5> ' +
-                            '<p class="card-text">' + author + '</p>' +
-                            '<div class="card-text">' + mangaDescription + '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</a>';
-                        $("#mangaInfo").append(mangaCard);
-                    {% endfor %}
-                {% endfor %}
-            {% endfor %}
             $("#mangaInfo").on('mouseenter', 'a', function () {
                 var href = $(this).attr('href');
                 var title_id = href.split('/')[2];

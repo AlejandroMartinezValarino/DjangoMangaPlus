@@ -4,9 +4,9 @@
 {% block content %}
     <form method="POST" id="mangaForm">
         {% csrf_token %}
-        <div class="container" style="display: flex; justify-content: center;margin-bottom: 10px;margin-top: 10px">
-            <div style="width: 100%;">
-                <select id="mangas" name="manga_lang" style="width: 100%;">
+        <div class="container list">
+            <div>
+                <select id="mangas" name="manga_lang">
                     <option value="SPANISH">Spanish</option>
                     {% for language in lenguas %}
                         {% if language != "SPANISH" and language != 7 and language != 9 and language %}
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="container d-grid gap-2 col-10 mx-auto">
-            <input class="btn btn-primary" style="display: flex; justify-content: center;" type="button" value="Ver"
+            <input class="btn btn-primary" type="button" value="Ver"
                    onclick="this.form.submit()">
         </div>
     </form>

@@ -1,3 +1,8 @@
+import { injectSpeedInsights } from '@vercel/speed-insights';
+
+injectSpeedInsights();
+
+
 var wrapper = document.querySelector('.wrapper');
 
 for (var n = 1; n <= 80; n++) {

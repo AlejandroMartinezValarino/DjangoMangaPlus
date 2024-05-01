@@ -11,3 +11,6 @@ urlpatterns = [
     path('manga_overview/<int:title_id>/', views.manga_overview),
 ]
 
+handler404 = views.error_404_view
+handler500 = views.error_500_view
+

@@ -62,3 +62,11 @@ def manga_detail(request, chapter_id):
     content = client.manga_viewer(chapter_id, quality=Quality.SUPER_HIGH)
 
     return render(request, 'manga/read.html', {'pages': content})
+
+
+def error_404_view(request, exception):
+    return render(request, '404.html', status=404)
+
+
+def error_500_view(request):
+    return render(request, '500.html', status=500)

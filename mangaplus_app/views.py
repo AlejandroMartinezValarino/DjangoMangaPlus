@@ -49,7 +49,6 @@ def homepage(request):
     return render(request, 'manga/list.html', {'lenguas': languages, 'infos': infos})
 
 
-
 def manga_overview(request, title_id):
     title_detail = client.title_detail(title_id)
     overview = title_detail.get('overview', '')

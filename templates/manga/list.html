@@ -27,17 +27,17 @@
 
     <div class="container mt-4">
         <div class="row row-cols-1 row-cols-md-3 g-4" id="mangaInfo">
-            {% for info in infos %}
-                {% for item in info.items %}
-                    {% for title in item.metadata.title %}
+            {% for group in infos %}
+                {% for title_group in group.titleGroups %}
+                    {% for title_info in title_group.titles %}
                         <div class="col">
-                            <a class="text-decoration-none" href="/manga/{{ title.titleId }}/">
+                            <a class="text-decoration-none" href="/manga/{{ title_info.title.titleId }}/">
                                 <div class="card text-center" style="background-color: #f8f9fa;">
-                                    <img src="{{ title.imagePortrait }}" class="card-img-top mx-auto d-block" style="width: 30%; height: 30%;">
+                                    <img src="{{ title_info.title.portraitImageUrl }}" class="card-img-top mx-auto d-block" style="width: 30%; height: 30%;">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ title.titleName }}</h5>
-                                        <p class="card-text">{{ title.author }}</p>
-                                        <div class="card-text">{{ item.overview }}</div>
+                                        <h5 class="card-title">{{ title_info.title.name }}</h5>
+                                        <p class="card-text">{{ title_info.title.author }}</p>
+                                        <div class="card-text">{{ title_info.chapterName }}</div>
                                     </div>
                                 </div>
                             </a>

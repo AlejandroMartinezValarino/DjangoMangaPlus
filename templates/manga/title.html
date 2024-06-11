@@ -6,33 +6,46 @@
     <div id="chapter-grid" class="container-fluid bg-light" style="padding: 50px 0;">
         <div class="container">
             <div class="row">
-                {% for chapter in chapters.chapters %}
-                    {% for first in chapter.firstChapterList %}
-                            <div class="col-sm-4 text-center mb-4">
-                                <a href="{% url 'mangaplus_app:manga_detail' first.chapterId %}" class="text-decoration-none text-dark">
-                                    <div class="card">
-                                        <img src="{{ first.thumbnailUrl }}" alt="{{ first.chapterSubTitle }}" class="card-img-top img-fluid">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ first.titleName }}</h5>
-                                            <p class="card-text">{{ first.chapterSubTitle }}</p>
-                                        </div>
+                {% for chapterGroup in titleDetailView.chapterListGroup %}
+                    {% for first in chapterGroup.firstChapterList %}
+                        <div class="col-sm-4 text-center mb-4">
+                            <a href="{% url 'mangaplus_app:manga_detail' first.chapterId %}" class="text-decoration-none text-dark">
+                                <div class="card">
+                                    <img src="{{ first.thumbnailUrl }}" alt="{{ first.subTitle }}" class="card-img-top img-fluid">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ first.name }}</h5>
+                                        <p class="card-text">{{ first.subTitle }}</p>
                                     </div>
-                                </a>
-                            </div>
-                        {% endfor %}
-                    	{% for lastChapter in chapter.lastChapterList %}
-                            <div class="col-sm-4 text-center mb-4">
-                                <a href="{% url 'mangaplus_app:manga_detail' lastChapter.chapterId %}" class="text-decoration-none text-dark">
-                                    <div class="card">
-                                        <img src="{{ lastChapter.thumbnailUrl }}" alt="{{ lastChapter.chapterSubTitle }}" class="card-img-top img-fluid">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ lastChapter.titleName }}</h5>
-                                            <p class="card-text">{{ lastChapter.chapterSubTitle }}</p>
-                                        </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                    {% for mid in chapterGroup.midChapterList %}
+                        <div class="col-sm-4 text-center mb-4">
+                            <a href="{% url 'mangaplus_app:manga_detail' mid.chapterId %}" class="text-decoration-none text-dark">
+                                <div class="card">
+                                    <img src="{{ mid.thumbnailUrl }}" alt="{{ mid.subTitle }}" class="card-img-top img-fluid">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ mid.name }}</h5>
+                                        <p class="card-text">{{ mid.subTitle }}</p>
                                     </div>
-                                </a>
-                            </div>
-                        {% endfor %}
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                    {% for last in chapterGroup.lastChapterList %}
+                        <div class="col-sm-4 text-center mb-4">
+                            <a href="{% url 'mangaplus_app:manga_detail' last.chapterId %}" class="text-decoration-none text-dark">
+                                <div class="card">
+                                    <img src="{{ last.thumbnailUrl }}" alt="{{ last.subTitle }}" class="card-img-top img-fluid">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ last.name }}</h5>
+                                        <p class="card-text">{{ last.subTitle }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
                 {% endfor %}
             </div>
         </div>

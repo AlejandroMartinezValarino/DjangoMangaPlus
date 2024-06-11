@@ -3,10 +3,12 @@
 {% block title %}Chapter{% endblock %}
 {% block content %}
     <div class="container">
-        {% for page in pages.pages %}
-            <div class="text-center my-4">
-                <img src="{{ page.page.imagePage }}" alt="{{ page }}" class="img-fluid">
-            </div>
+        {% for page in mangaViewer.pages %}
+            {% if page.mangaPage %}
+                <div class="text-center my-4">
+                    <img src="{{ page.mangaPage.imageUrl }}" alt="Manga Page" class="img-fluid">
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}

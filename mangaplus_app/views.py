@@ -1,14 +1,14 @@
+import uuid
+
 from django.http import JsonResponse
 from django.shortcuts import render
 
-import secrets
+from mangaplus.constants import Language, Viewer, Quality
+from mangaplus.shueisha import MangaPlus
 
-from pymangaplus.client import Client
-from pymangaplus.constants import Quality, Language
-
-android_id = secrets.token_bytes(8).hex()
-client = Client(Language.SPANISH)
-client.register(android_id)
+device_id = str(uuid.uuid4())
+client = MangaPlus(lang=Language.SPANISH, viewer=Viewer.VERTICAL)
+client.register(device_id)
 
 
 def homepage(request):
@@ -20,30 +20,34 @@ def homepage(request):
     infos = []
 
     try:
-        for update in content.get('updates', []):
-            for item in update.get('items', []):
-                for title in item.get('metadata', {}).get('title', []):
-                    language = title.get('language', '')
+        home_view = content.get('homeViewV3', {})
+        groups = home_view.get('groups', [])
+
+        for group in groups:
+            for title_group in group.get('titleGroups', []):
+                for title_info in title_group.get('titles', []):
+                    language = title_info.get('title', {}).get('language', '')
                     languages.add(language)
 
-        for update in content.get('updates', []):
-            filtered_update = {'items': []}
-            for item in update.get('items', []):
+        for group in groups:
+            filtered_group = {'titleGroups': []}
+            for title_group in group.get('titleGroups', []):
                 filtered_titles = []
-                for title in item.get('metadata', {}).get('title', []):
-                    language = title.get('language', '')
+                for title_info in title_group.get('titles', []):
+                    language = title_info.get('title', {}).get('language', '')
                     if language == manga_lang:
-                        filtered_titles.append(title)
+                        filtered_titles.append(title_info)
                 if filtered_titles:
-                    filtered_item = {'metadata': {'title': filtered_titles}}
-                    filtered_update['items'].append(filtered_item)
-            if filtered_update['items']:
-                infos.append(filtered_update)
+                    filtered_title_group = {'titles': filtered_titles}
+                    filtered_group['titleGroups'].append(filtered_title_group)
+            if filtered_group['titleGroups']:
+                infos.append(filtered_group)
 
     except Exception as e:
         print(f"Error: {e}")
 
     return render(request, 'manga/list.html', {'lenguas': languages, 'infos': infos})
+
 
 
 def manga_overview(request, title_id):
@@ -59,7 +63,7 @@ def title_detail(request, title_id):
 
 
 def manga_detail(request, chapter_id):
-    content = client.manga_viewer(chapter_id, quality=Quality.SUPER_HIGH)
+    content = client.manga_viewer(chapter_id=chapter_id, split=False, quality=Quality.SUPER_HIGH)
 
     return render(request, 'manga/read.html', {'pages': content})
 

@@ -3,10 +3,10 @@
 {% block title %}Chapters{% endblock %}
 
 {% block content %}
-    <div id="chapter-grid" class="container-fluid bg-light" style="padding: 50px 0;">
+    <div id="chapter-grid" class="container-fluid" style="padding: 50px 0;">
         <div class="container">
             <div class="row">
-                {% for chapterGroup in titleDetailView.chapterListGroup %}
+                {% for chapterGroup in chapters.titleDetailView.chapterListGroup %}
                     {% for first in chapterGroup.firstChapterList %}
                         <div class="col-sm-4 text-center mb-4">
                             <a href="{% url 'mangaplus_app:manga_detail' first.chapterId %}" class="text-decoration-none text-dark">

@@ -50,8 +50,9 @@ def homepage(request):
 
 
 def manga_overview(request, title_id):
-    title_detail = client.title_detail(title_id)
-    overview = title_detail.get('overview', '')
+    title = client.title_detail(title_id)
+    title_detail_view = title.get('titleDetailView')
+    overview = title_detail_view.get('overview')
     return JsonResponse({'overview': overview})
 
 

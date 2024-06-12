@@ -3,7 +3,7 @@
 {% block title %}Chapter{% endblock %}
 {% block content %}
     <div class="container">
-        {% for page in mangaViewer.pages %}
+        {% for page in pages.mangaViewer.pages %}
             {% if page.mangaPage %}
                 <div class="text-center my-4">
                     <img src="{{ page.mangaPage.imageUrl }}" alt="Manga Page" class="img-fluid">
